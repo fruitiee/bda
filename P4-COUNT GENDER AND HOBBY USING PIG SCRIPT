@@ -1,0 +1,55 @@
+PIG SETUP 
+.bashrc 
+export JAVA_HOME=/home/grg/jdk1.8.0_45 
+export PIG_HOME=/home/grg/pig-0.12.0 
+export PATH=$JAVA_HOME/bin:$PATH/bin:$PIG_HOME 
+#export HADOOP_HOME=/home/grg/hadoop-2.9.1 
+#export SPARK_HOME=//home/grg/spark-2.1.1-bin-hadoop2.7 
+#export PATH=$JAVA_HOME/bin:$HADOOP_HOME/bin:$HIVE_HOME/bin:$PATH 
+#export HIVE_HOME=/home/grg/hive-0.12.0 
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 # Or replace with your desired JDK path 
+export PIG_HOME=/home/grg/pig-0.12.0 
+export PATH=$PIG_HOME/bin:$JAVA_HOME/bin:$PATH 
+ 
+Core-site.xml 
+<?xml version ="1.0"?> 
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?> 
+<configuration> 
+<property> 
+<name>fs.defaultFS</name> 
+<value>hdfs://localhost:9000</value> 
+<name>dfs.namenode.https.address</name> 
+<value>node:port</value> 
+</property> 
+</configuration> 
+ 
+Hive-site.xml 
+<configuration> 
+<property> 
+<name>hive.metastore.uris</name> 
+<value>thrift://localhost:9083</value>
+<description>URI for the Hive Metastore service</description> 
+</property> 
+</configuration> 
+Terminal 
+source .bashrc 
+cd pig-0.12.0 
+bin/pig -x local 
+Create file2.txt 
+1,alice,female,jogging 
+2,anu,male,book 
+3,kalai,female,phone 
+4,mani,male,tv 
+5,laksh,female,book 
+6,keerthana,female,painting 
+7,vikas,male,reading 
+8,rohit,male,gaming 
+CODE 
+H= LOAD' /home/grg/file2.txt' using PigStorage(',') as 
+(id:int,name:chararray,gender:chararray,hobby:chararray); 
+grp = group H by hobby; 
+gr = FOREACH grp GENERATE group,COUNT(H); 
+dump gr; 
+grp_gender = GROUP H BY gender; 
+gender_count = FOREACH grp_gender GENERATE group AS gender, COUNT(H) AS count; 
+DUMP gender_count;
