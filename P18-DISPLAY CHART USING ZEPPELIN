@@ -1,0 +1,57 @@
+.bashrc 
+export JAVA_HOME=/home/grg/jdk1.8.0_45 
+export HADOOP_HOME=/home/grg/hadoop-2.9.0 
+export SPARK_HOME=/home/grg/spark-2.1.1-bin-hadoop2.7 
+export PATH=$JAVA_HOME/bin:$HADOOP_HOME/bin:$HIVE_HOME/bin:$PATH 
+#export JAVA_HOME=/usr/lip/jpm/java-8-openjdk_amd64 
+export PIG_HOME=/home/grg/pig-0.12.0 
+export HADOOP_HOME=/home/grg/hadoop-2.9.1 
+export HIVE_HOME=/home/grg/hive-0.12.0 
+export PATH=$HIVE_HOME/bin:$PATH
+
+search firefox :http://localhost:8080/ 
+
+create crimedata.txt — create new file in texteditor 
+1,John,Phishing,Male,Delhi 
+2,Alice,Hacking,Female,Mumbai 
+3,Rahul,Identity Theft,Male,Bangalore 
+4,Sneha,Phishing,Female,Delhi 
+5,Amit,Online Fraud,Male,Chennai 
+6,Priya,Hacking,Female,Bangalore 
+7,Rohit,Phishing,Male,Mumbai 
+8,Neha,Online Fraud,Female,Delhi 
+9,Karan,Identity Theft,Male,Pune 
+10,Anjali,Hacking,Female,Chennai 
+ 
+CODE 
+import org.apache.spark.sql.{Row, SQLContext}; 
+import org.apache.spark.sql.types.{StructType, StructField, StringType}  
+val schemaString = "id, name, crime_type, gender, crime_location" 
+val schema = StructType( 
+schemaString.split(",").map(fieldName => 
+StructField(fieldName.trim, StringType, true) 
+) 
+)
+val cybercrimeData = sc.textFile("file:///home/grg/crimedata.txt") 
+val rowRDD = cybercrimeData.map(_.split(",")).flatMap(p => 
+if (p.length == 5) { 
+Some(Row(p(0).trim, p(1).trim, p(2).trim, p(3).trim, p(4).trim)) 
+} else { 
+None 
+} 
+) 
+val sqlContext = new SQLContext(sc) 
+val cybercrimeDF = sqlContext.createDataFrame(rowRDD, schema) 
+cybercrimeDF.createOrReplaceTempView("cybercrime") 
+val crimeTypeCountsDF = sqlContext.sql( 
+"""SELECT crime_type, COUNT(*) AS count 
+FROM cybercrime GROUP 
+BY crime_type""" 
+) 
+crimeTypeCountsDF.show() 
+ 
+To view the Output: 
+%sql 
+SELECT crime_type, COUNT(*) AS crime_count 
+FROM cybercrime 
+GROUP BY crime_type
