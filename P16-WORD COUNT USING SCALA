@@ -1,4 +1,8 @@
-For this program requires word.txt file 
+For this program requires word.txt file If not create one
+hi hi hi
+hello hello hello
+welcome
+
 val a = sc.textFile("/home/grg/word.txt") 
 val splitdata = a.flatMap(line => line.split(" ")) 
 val napdata = splitdata.map(word => (word, 1)) 
