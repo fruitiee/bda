@@ -1,4 +1,6 @@
-In Terminal 
+CHECK 6 DAEMONS IN TERMINAL AFTER
+CONTINUE THE CODE IN TERMINAL
+
 touch eb.csv 
 nano mapper2.py 
 nano reducer2.py 
@@ -33,7 +35,7 @@ consumption = int(parts[2]) # Convert consumption to integer
 print(f"{year}\t{consumption}") 
 except ValueError: 
 continue # Skip invalid lines 
- 
+ After type the code and press F2
  
 reducer2.py 
 #!/usr/bin/env python3 
@@ -57,3 +59,4 @@ continue
 # Print last year's max 
 if current_year: 
 print(f"{current_year}\t{max_consumption}")
+After type the code and press F2
