@@ -1,0 +1,49 @@
+core.site.xml
+
+<configuration>
+<property>
+<name>fs.defaultFS</name>
+<value>hdfs://localhost:9000</value>
+</property>
+<property>
+<name>hadoop.tmp.dir</name>
+<value>/home/grg/hadoop-2.9.1/tmp</value>
+</property>
+</configuration>
+
+
+hdfs.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+
+  <property>
+    <name>dfs.replication</name>
+    <value>1</value>
+  </property>
+
+  <property>
+    <name>dfs.namenode.name.dir</name>
+    <value>file:/home/grg/hdfs/namenode</value>
+  </property>
+
+  <property>
+    <name>dfs.datanode.data.dir</name>
+    <value>file:/home/grg/hdfs/datanode</value>
+  </property>
+
+</configuration>
+
+
+sbin/stop-dfs.sh
+sbin/stop-yarn.sh
+mkdir -p /home/grg/hdfs/datanode
+chmod -R 755 /home/grg/hdfs
+rm -rf /home/grg/hdfs/datanode/*
+sbin/start-dfs.sh
+jps
+sbin/start-yarn.sh
+jps
+
