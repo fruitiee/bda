@@ -1,0 +1,15 @@
+object EmployeeApp { 
+class Employee(val employeeId: Int, val name: String, val department: String, val age: Int) { 
+def displayDetails(): Unit = { 
+println(s"Employee ID: $employeeId") 
+println(s"Name: $name") 
+println(s"Department: $department") 
+println(s"Age: $age") 
+} 
+} 
+def main(args: Array[String]): Unit = { 
+val emp1 = new Employee(101, "John Doe", "Finance", 30) 
+emp1.displayDetails() 
+} 
+} 
+EmployeeApp.main{null}
