@@ -1,0 +1,50 @@
+In Terminal 
+touch weather.csv 
+nano mapper1.py 
+nano reducer1.py 
+cat weather.csv 
+cat weather.csv | python3 mapper1.py | python3 reducer1.py > output.txt 
+cat output.txt 
+weather.csv 
+Date,Temperature,WeatherType 
+2024-01-01,35,Sunny 
+2024-01-02,18,Cloudy 
+2024-01-03,42,Sunny 
+2024-01-04,12,Rainy 
+2024-01-05,30,Sunny 
+mapper1.py 
+#!/usr/bin/env python3 
+import sys 
+# Define temperature thresholds 
+HOT_THRESHOLD = 30 # Above 30°C is considered "Shiny" 
+COLD_THRESHOLD = 20 # Below 20°C is considered "Cool" 
+# Read input line by line 
+for line in sys.stdin: 
+line = line.strip() 
+parts = line.split(",") 
+# Skip header line 
+if parts[0] == "Date": 
+continue 
+# Extract date and temperature
+date = parts[0] 
+try: 
+temperature = int(parts[1]) # Convert temperature to integer 
+# Categorize the day as "Shiny" or "Cool" 
+if temperature > HOT_THRESHOLD: 
+print(f"{date}\tShiny") 
+elif temperature < COLD_THRESHOLD: 
+print(f"{date}\tCool") 
+except ValueError: 
+continue # Skip lines with invalid data 
+reduce.py 
+#!/usr/bin/env python3 
+import sys 
+# Read input from standard input (sorted by Hadoop) 
+for line in sys.stdin: 
+line = line.strip() 
+try: 
+date, category = line.split("\t") 
+# Output the final classification of the day 
+print(f"{date} is a {category} day") 
+except ValueError: 
+continue # Skip malformed lines
