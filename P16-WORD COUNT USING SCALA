@@ -1,0 +1,14 @@
+For this program requires word.txt file 
+val a = sc.textFile("/home/grg/word.txt") 
+val splitdata = a.flatMap(line => line.split(" ")) 
+val napdata = splitdata.map(word => (word, 1)) 
+val reducedata = napdata.reduceByKey(_ + _) 
+reducedata.collect() 
+ 
+OR 
+ 
+val a = sc.textFile("/home/grg/word.txt") 
+val splitdata = a.flatMap(line => line.split(" ")) 
+val napdata = splitdata.map(word => (word, 1)) 
+val reducedata = napdata.reduceByKey(_ + _) 
+reducedata.collect().foreach(println) // Print the results to the console
