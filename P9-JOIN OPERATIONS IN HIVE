@@ -1,3 +1,7 @@
+Open terminal
+mysql -u root -p
+Password : root
+
 CREATE TABLE Customers ( 
 CustomerID INT PRIMARY KEY, 
 Name VARCHAR(100), 
