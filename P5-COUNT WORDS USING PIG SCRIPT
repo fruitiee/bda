@@ -1,0 +1,9 @@
+inputfile = LOAD '/home/grg/input.txt' AS (line:chararray); 
+DUMP inputfile; 
+words = FOREACH inputfile GENERATE FLATTEN(TOKENIZE(line)) AS word; 
+filtered_words = FILTER words BY word MATCHES '\\w+'; 
+word_groups = GROUP filtered_words BY word; 
+word_count = FOREACH word_groups GENERATE group AS word, COUNT(filtered_words) AS 
+count; 
+sorted_word_count = ORDER word_count BY count DESC; 
+DUMP sorted_word_count;
